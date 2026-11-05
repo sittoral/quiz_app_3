@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'history_page.dart';
 import 'questions_page.dart';
 
 class StartPage extends StatefulWidget {
@@ -9,7 +10,6 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
-  // id категории из opentdb, null = Any
   static const Map<String, int?> categories = {
     'Any Category': null,
     'General Knowledge': 9,
@@ -38,7 +38,6 @@ class _StartPageState extends State<StartPage> {
     'Entertainment: Cartoon & Animations': 32,
   };
 
-  // значение для API, null = Any
   static const Map<String, String?> difficulties = {
     'Any Difficulty': null,
     'Easy': 'easy',
@@ -57,6 +56,7 @@ class _StartPageState extends State<StartPage> {
         builder: (_) => QuestionsPage(
           amount: _amount.round(),
           category: categories[_category],
+          categoryName: _category == 'Any Category' ? 'Mixed' : _category,
           difficulty: difficulties[_difficulty],
         ),
       ),
@@ -72,9 +72,21 @@ class _StartPageState extends State<StartPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Quiz',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Quiz',
+                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.history),
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const HistoryPage()),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 32),
               Text('Questions amount: ${_amount.round()}'),
